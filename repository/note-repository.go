@@ -1,10 +1,8 @@
 package repository
 
 import (
-	"log"
-
+	"github.com/Zoopast/notes-app/initializer"
 	"github.com/Zoopast/notes-app/model"
-	"github.com/Zoopast/notes-app/utils"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -21,12 +19,8 @@ type database struct {
 	connection *gorm.DB
 }
 
-func NewNoteRepository() NoteRepository {
-	config, err := utils.LoadConfig(".")
-
-	if err != nil {
-		log.Fatal("Cannot load config:", err)
-	}
+func NewNoteRepository(configPath string) NoteRepository {
+	config := initializer.LoadConfig(configPath)
 
 	db, err := gorm.Open(postgres.Open(config.DBUrl), &gorm.Config{})
 

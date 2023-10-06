@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	noteRepository repository.NoteRepository = repository.NewNoteRepository()
+	noteRepository repository.NoteRepository = repository.NewNoteRepository(".")
 	noteService    service.NoteService       = service.New(noteRepository)
 
 	noteController controller.NoteController = controller.New(noteService)
