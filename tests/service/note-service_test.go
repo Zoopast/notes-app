@@ -1,4 +1,4 @@
-package service_test
+package service
 
 import (
 	"github.com/Zoopast/notes-app/model"
@@ -25,7 +25,7 @@ var _ = Describe("Note service", func() {
 	)
 
 	BeforeSuite(func() {
-		noteRepository = repository.NewNoteRepository()
+		noteRepository = repository.NewNoteRepository("../../")
 		noteService = service.New(noteRepository)
 	})
 
@@ -39,6 +39,24 @@ var _ = Describe("Note service", func() {
 				notelist := noteService.FindAll()
 
 				Ω(notelist).ShouldNot(BeEmpty())
+			})
+
+			It("should map the fields correctly", func() {
+				firstNote := noteService.FindAll()[0]
+
+				Ω(firstNote.Title).Should(Equal(TITLE))
+				Ω(firstNote.Content).Should(Equal(CONTENT))
+			})
+
+			AfterEach(func() {
+				note := noteService.FindAll()[0]
+				noteService.Delete(note)
+			})
+		})
+		Context("If there are no notes in the database", func() {
+			It("should return an empty list", func() {
+				notes := noteService.FindAll()
+				Ω(notes).Should(BeEmpty())
 			})
 		})
 	})
