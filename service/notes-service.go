@@ -10,6 +10,7 @@ type NoteService interface {
 	Update(model.Note) error
 	Delete(model.Note) error
 	FindAll() []model.Note
+	Find(id uint64) model.Note
 }
 
 type noteService struct {
@@ -35,4 +36,8 @@ func (service *noteService) Delete(note model.Note) error {
 }
 func (service *noteService) FindAll() []model.Note {
 	return service.repository.FindAll()
+}
+
+func (service *noteService) Find(id uint64) model.Note {
+	return service.repository.Find(id)
 }
