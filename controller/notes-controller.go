@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type NotesController interface {
-	FindAll(ctx *gin.Context) []model.Note
+type NoteController interface {
+	FindAll() []model.Note
 	Find(ctx *gin.Context) model.Note
 	Save(ctx *gin.Context) error
 	Update(ctx *gin.Context) error
@@ -20,7 +20,7 @@ type controller struct {
 	service service.NoteService
 }
 
-func New(service service.NoteService) NotesController {
+func New(service service.NoteService) NoteController {
 	return &controller{
 		service: service,
 	}
@@ -75,7 +75,7 @@ func (c *controller) Find(ctx *gin.Context) model.Note {
 	note := c.service.Find(id)
 	return note
 }
-func (c *controller) FindAll(ctx *gin.Context) []model.Note {
+func (c *controller) FindAll() []model.Note {
 
 	return c.service.FindAll()
 }
