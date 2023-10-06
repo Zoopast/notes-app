@@ -14,6 +14,7 @@ type NoteRepository interface {
 	Update(model.Note)
 	Delete(model.Note)
 	FindAll() []model.Note
+	Find(id uint64) model.Note
 }
 
 type database struct {
@@ -54,4 +55,11 @@ func (db *database) FindAll() []model.Note {
 
 	db.connection.Set("gorm:auto_preload", true).Find(&notes)
 	return notes
+}
+
+func (db *database) Find(id uint64) model.Note {
+	var note model.Note
+	db.connection.First(&note, id)
+
+	return note
 }
